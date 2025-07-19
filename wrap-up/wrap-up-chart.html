@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wrap-up Data Analysis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#5793f3',
+            secondary: '#91cc75',
+            accent: '#fac858',
+            purple: '#743de0',
+            red: '#ee6666',
+            darkPurple: '#9159e4',
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-shadow {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      .legend-item {
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .legend-item:hover {
+        transform: translateY(-2px);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-inter">
+  <div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl p-6 mb-8 card-shadow">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">Wrap-up Data Analysis</h1>
+          <p class="text-gray-500">Monitor customer service post-call processing efficiency and quality</p>
+        </div>
+        <div class="flex space-x-2 mt-4 md:mt-0">
+          <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+            <i class="fa fa-refresh mr-1"></i> Refresh
+          </button>
+          <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+            <i class="fa fa-download mr-1"></i> Export
+          </button>
+        </div>
+      </div>
+      
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="relative">
+          <select class="appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-primary">
+            <option>Last 7 days</option>
+            <option>Last 30 days</option>
+            <option>This month</option>
+            <option>Last month</option>
+            <option>Custom</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <i class="fa fa-chevron-down text-xs"></i>
+          </div>
+        </div>
+        <div class="relative">
+          <select class="appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-primary">
+            <option>All Agents</option>
+            <option>Agent A</option>
+            <option>Agent B</option>
+            <option>Agent C</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <i class="fa fa-chevron-down text-xs"></i>
+          </div>
+        </div>
+        <div class="relative">
+          <select class="appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-primary">
+            <option>All Dispositions</option>
+            <option>BUG</option>
+            <option>Question</option>
+            <option>FEATURE</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <i class="fa fa-chevron-down text-xs"></i>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Metric Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-primary">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Average Completion Rate</p>
+              <h3 class="text-3xl font-bold text-gray-800">92.5%</h3>
+              <p class="text-green-500 text-sm mt-2">
+                <i class="fa fa-arrow-up mr-1"></i> vs Last Week +1.2%
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-check text-primary text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-secondary">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Average Time</p>
+              <h3 class="text-3xl font-bold text-gray-800">48.5s</h3>
+              <p class="text-green-500 text-sm mt-2">
+                <i class="fa fa-arrow-down mr-1"></i> vs Last Week -3.2s
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-clock-o text-secondary text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-purple">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Missing Forms Rate</p>
+              <h3 class="text-3xl font-bold text-gray-800">25.3%</h3>
+              <p class="text-red-500 text-sm mt-2">
+                <i class="fa fa-arrow-up mr-1"></i> vs Last Week +2.1%
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-purple/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-exclamation-triangle text-purple text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-accent">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Average Data Completeness</p>
+              <h3 class="text-3xl font-bold text-gray-800">82.7%</h3>
+              <p class="text-green-500 text-sm mt-2">
+                <i class="fa fa-arrow-up mr-1"></i> vs Last Week +3.5%
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-database text-accent text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Main Chart: Bar + Line Chart -->
+      <div class="bg-white rounded-xl p-6 mb-8 card-shadow">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold text-gray-800">Top Dispositions: Count vs Avg. Handling Time</h2>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+              Day
+            </button>
+            <button class="px-3 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm">
+              Week
+            </button>
+            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+              Month
+            </button>
+          </div>
+        </div>
+        <div id="dispositionChart" style="width: 100%; height: 400px;"></div>
+      </div>
+      
+      <!-- Category Metrics Table -->
+      <div class="bg-white rounded-xl p-6 card-shadow">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold text-gray-800">Dispositions Statistics</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="bg-gray-50">
+                <th class="px-6 py-3 text-sm font-semibold text-gray-600">Disposition</th>
+                <th class="px-6 py-3 text-sm font-semibold text-gray-600">Count</th>
+                <th class="px-6 py-3 text-sm font-semibold text-gray-600">Average Time</th>
+                <th class="px-6 py-3 text-sm font-semibold text-gray-600">Missing Form Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="w-3 h-3 rounded-full bg-primary mr-2"></div>
+                    <span>BUG</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 font-medium">180</td>
+                <td class="px-6 py-4">55s</td>
+                <td class="px-6 py-4">
+                  <div class="relative w-24 bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-purple h-2.5 rounded-full" style="width: 25%"></div>
+                  </div>
+                  <span class="text-xs text-purple ml-2">25%</span>
+                </td>
+
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="w-3 h-3 rounded-full bg-secondary mr-2"></div>
+                    <span>Question</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 font-medium">28</td>
+                <td class="px-6 py-4">40s</td>
+                <td class="px-6 py-4">
+                  <div class="relative w-24 bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-purple h-2.5 rounded-full" style="width: 10%"></div>
+                  </div>
+                  <span class="text-xs text-purple ml-2">10%</span>
+                </td>
+
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="w-3 h-3 rounded-full bg-accent mr-2"></div>
+                    <span>FEATURE</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 font-medium">18</td>
+                <td class="px-6 py-4">35s</td>
+                <td class="px-6 py-4">
+                  <div class="relative w-24 bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-purple h-2.5 rounded-full" style="width: 15%"></div>
+                  </div>
+                  <span class="text-xs text-purple ml-2">15%</span>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex justify-between items-center mt-6">
+          <div class="text-sm text-gray-500">Showing 1 to 3 of 3 entries</div>
+          <div class="flex space-x-1">
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50" disabled>
+              <i class="fa fa-chevron-left text-xs"></i>
+            </button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white">1</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+              <i class="fa fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="text-center text-gray-500 text-sm py-4">
+      <p>© 2025 Customer Service Analytics Platform · Last updated: 2025-06-21 16:30</p>
+    </footer>
+  </div>
+
+  <script>
+    // Initialize chart
+    document.addEventListener('DOMContentLoaded', function() {
+      const chartContainer = document.getElementById('dispositionChart');
+      if (!chartContainer) {
+        console.error('Chart container element not found');
+        return;
+      }
+      
+      const myChart = echarts.init(chartContainer);
+      
+      // Chart data
+      const chartData = {
+        categories: ['02/09', '02/16', '02/23', '03/02', '03/09', '03/16'],
+        series: [
+          { type: 'BUG', data: [20, 30, 25, 40, 35, 30] },
+          { type: 'Question', data: [5, 4, 6, 5, 4, 5] },
+          { type: 'FEATURE', data: [3, 2, 3, 4, 2, 3] },
+          { type: 'BUG_avgTime', data: [50, 55, 52, 60, 58, 56] },
+          { type: 'Question_avgTime', data: [40, 38, 42, 40, 39, 41] },
+          { type: 'FEATURE_avgTime', data: [35, 33, 36, 38, 34, 35] }
+        ]
+      };
+      
+      // Color mapping function
+      function getColor(seriesName) {
+        const colorMap = {
+          'BUG': '#5793f3',
+          'Question': '#91cc75',
+          'FEATURE': '#fac858',
+          'BUG Avg Time': '#743de0',
+          'Question Avg Time': '#ee6666',
+          'FEATURE Avg Time': '#9159e4'
+        };
+        return colorMap[seriesName] || '#999';
+      }
+      
+      // Chart configuration
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          borderColor: '#ddd',
+          borderWidth: 1,
+          textStyle: {
+            color: '#333'
+          },
+          formatter: function (params) {
+            let html = `<div class="font-medium">${params[0].name}</div>`;
+            params.forEach((item) => {
+              if (item.seriesName.includes('Avg Time')) {
+                html += `<div class="flex items-center mt-1">
+                  <span class="w-2 h-2 rounded-full bg-${getColor(item.seriesName)} mr-2"></span>
+                  <span class="text-sm">${item.seriesName}: ${item.value}s</span>
+                </div>`;
+              } else {
+                html += `<div class="flex items-center mt-1">
+                  <span class="w-2 h-2 bg-${getColor(item.seriesName)} mr-2"></span>
+                  <span class="text-sm">${item.seriesName}: ${item.value}</span>
+                </div>`;
+              }
+            });
+            return html;
+          }
+        },
+        legend: {
+          data: ['BUG', 'Question', 'FEATURE', 'BUG Avg Time', 'Question Avg Time', 'FEATURE Avg Time'],
+          orient: 'horizontal',
+          bottom: '2%',
+          left: 'center',
+          itemWidth: 10,
+          itemHeight: 10,
+          textStyle: {
+            color: '#666'
+          },
+          pageButtonItemGap: 2,
+          pageButtonStyle: {
+            color: '#999'
+          },
+          itemGap: 15
+        },
+        grid: {
+          left: '3%',
+          right: '8%',
+          bottom: '15%',
+          top: '10%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: chartData.categories,
+          axisLabel: {
+            rotate: 45,
+            color: '#666',
+            interval: 0
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#ddd'
+            }
+          },
+          axisTick: {
+            show: false
+          }
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: 'Call Count',
+            min: 0,
+            max: 50,
+            position: 'left',
+            axisLabel: {
+              color: '#666',
+              formatter: '{value}'
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#ddd'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              lineStyle: {
+                color: '#f5f5f5'
+              }
+            }
+          },
+          {
+            type: 'value',
+            name: 'Avg. Time (s)',
+            min: 0,
+            max: 70,
+            position: 'right',
+            axisLabel: {
+              color: '#666',
+              formatter: '{value}s'
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#ddd'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            }
+          }
+        ],
+        series: [
+          {
+            name: 'BUG',
+            type: 'bar',
+            data: chartData.series.find(s => s.type === 'BUG').data,
+            color: getColor('BUG'),
+            yAxisIndex: 0,
+            barWidth: 15,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.3)'
+              }
+            }
+          },
+          {
+            name: 'Question',
+            type: 'bar',
+            data: chartData.series.find(s => s.type === 'Question').data,
+            color: getColor('Question'),
+            yAxisIndex: 0,
+            barWidth: 15,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.3)'
+              }
+            }
+          },
+          {
+            name: 'FEATURE',
+            type: 'bar',
+            data: chartData.series.find(s => s.type === 'FEATURE').data,
+            color: getColor('FEATURE'),
+            yAxisIndex: 0,
+            barWidth: 15,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.3)'
+              }
+            }
+          },
+          {
+            name: 'BUG Avg Time',
+            type: 'line',
+            data: chartData.series.find(s => s.type === 'BUG_avgTime').data,
+            color: getColor('BUG Avg Time'),
+            yAxisIndex: 1,
+            symbol: 'circle',
+            symbolSize: 6,
+            lineStyle: {
+              width: 2,
+              type: 'solid'
+            },
+            label: {
+              show: false,
+              position: 'top',
+              color: '#333'
+            }
+          },
+          {
+            name: 'Question Avg Time',
+            type: 'line',
+            data: chartData.series.find(s => s.type === 'Question_avgTime').data,
+            color: getColor('Question Avg Time'),
+            yAxisIndex: 1,
+            symbol: 'circle',
+            symbolSize: 6,
+            lineStyle: {
+              width: 2,
+              type: 'solid'
+            },
+            label: {
+              show: false,
+              position: 'top',
+              color: '#333'
+            }
+          },
+          {
+            name: 'FEATURE Avg Time',
+            type: 'line',
+            data: chartData.series.find(s => s.type === 'FEATURE_avgTime').data,
+            color: getColor('FEATURE Avg Time'),
+            yAxisIndex: 1,
+            symbol: 'circle',
+            symbolSize: 6,
+            lineStyle: {
+              width: 2,
+              type: 'solid'
+            },
+            label: {
+              show: false,
+              position: 'top',
+              color: '#333'
+            }
+          }
+        ]
+      };
+      
+      // Set chart configuration
+      myChart.setOption(option);
+      
+      // Handle responsiveness
+      window.addEventListener('resize', function() {
+        myChart.resize();
+      });
+      
+      // Show loading state
+      myChart.showLoading();
+      
+      // Simulate data loading completion
+      setTimeout(() => {
+        myChart.hideLoading();
+        myChart.setOption(option);
+      }, 800);
+    });
+  </script>
+</body>
+</html>

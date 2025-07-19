@@ -1,0 +1,98 @@
+/* Custom styles for webinar-registration.html */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.form-container {
+  backdrop-filter: blur(8px);
+}
+
+input, select {
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+#responseMessage {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  display: none;
+}
+
+#responseMessage.success {
+  color: #10b981;
+  background-color: #ecfdf5;
+  border: 1px solid #10b981;
+  display: block;
+}
+
+#responseMessage.error {
+  color: #ef4444;
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  display: block;
+}
+
+/* Modal styles */
+#responseModal {
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+#responseModal.success {
+  border-left: 4px solid #10b981;
+}
+
+#responseModal.error {
+  border-left: 4px solid #ef4444;
+}
+
+/* Modal icon styles */
+#modalIcon {
+  display: block !important;
+  visibility: visible !important;
+  transition: all 0.3s ease;
+}
+
+#responseModal.success #modalIcon {
+  color: #10b981 !important;
+}
+
+#responseModal.error #modalIcon {
+  color: #ef4444 !important;
+}
+
+/* Modal content animation */
+.modal-content {
+  transition: all 0.3s ease;
+  opacity: 1 !important;
+}
+
+/* Modal title and message */
+#modalTitle, #modalMessage {
+  display: block !important;
+  visibility: visible !important;
+}
+
+#modalTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+#modalMessage {
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+/* Form submitting state */
+form.submitting {
+  opacity: 0.7;
+  pointer-events: none;
+}

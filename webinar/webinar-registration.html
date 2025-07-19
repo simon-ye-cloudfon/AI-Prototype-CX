@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webinar Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-sans flex items-center justify-center min-h-screen bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+  <div class="absolute inset-0 bg-black opacity-50"></div> <!-- Overlay for better readability -->
+  <div class="relative z-10 bg-white p-8 rounded-lg shadow-xl w-full max-w-md bg-opacity-90 border border-gray-100">
+    <div class="mb-6 text-center">
+  <h2 class="text-3xl font-bold text-gray-800 mb-2">Professional Webinar Series</h2>
+  <p class="text-gray-600">Register now to secure your spot</p>
+</div>
+    <form id="registrationForm" onsubmit="submitForm(); return false;">
+      <div id="loadingSpinner" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+      
+      <!-- Response Modal -->
+      <div id="responseModal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 modal-content">
+          <div class="text-center mb-6">
+            <!-- Success/Error Icon -->
+            <div class="mx-auto mb-4 w-16 h-16 flex items-center justify-center bg-green-100 rounded-full" style="border: 2px solid #10B981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);">
+              <svg id="modalIcon" class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: block !important; color: #10B981 !important; visibility: visible !important;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2" style="display: block;">Registration Successful</h3>
+            <p id="modalMessage" class="text-gray-600" style="display: block;">Thanks for your register, we will send you email soon!</p>
+          </div>
+          <button onclick="closeModal()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+            Continue
+          </button>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="firstName" class="block text-gray-700 text-sm font-bold mb-2">Your First Name:</label>
+        <input type="text" id="firstName" name="firstName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+      </div>
+      <div class="mb-4">
+        <label for="lastName" class="block text-gray-700 text-sm font-bold mb-2">Your Last Name:</label>
+        <input type="text" id="lastName" name="lastName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address:</label>
+        <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+      </div>
+      <div class="mb-4">
+        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+        <div class="flex">
+          <select id="countryCode" name="countryCode" class="shadow appearance-none border rounded-l py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <option value="+1">+1 (USA/Canada)</option>
+            <option value="+44">+44 (UK)</option>
+            <option value="+86">+86 (China)</option>
+            <option value="+91">+91 (India)</option>
+            <option value="+61">+61 (Australia)</option>
+            <option value="+81">+81 (Japan)</option>
+            <option value="+49">+49 (Germany)</option>
+            <option value="+33">+33 (France)</option>
+            <option value="+55">+55 (Brazil)</option>
+            <option value="+65">+65 (Singapore)</option>
+            <option value="+852">+852 (Hong Kong)</option>
+            <!-- Add more country codes as needed -->
+          </select>
+          <input type="tel" id="phone" name="phone" class="shadow appearance-none border rounded-r w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="e.g., 123-456-7890">
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="whatsapp" class="block text-gray-700 text-sm font-bold mb-2">WhatsApp Number:</label>
+        <input type="tel" id="whatsapp" name="whatsapp" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Optional">
+      </div>
+      <div class="flex items-center justify-between">
+        <button type="submit" id="submitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 w-full">
+  Register Now
+</button>
+      </div>
+    </form>
+    <div id="responseMessage" class="mt-4 text-center text-sm font-medium hidden"></div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

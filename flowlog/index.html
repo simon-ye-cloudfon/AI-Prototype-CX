@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Log 导航</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <i class="fa fa-exchange text-teal-600 mr-3"></i>
+                        Flow Log 导航
+                    </h1>
+                    <p class="text-gray-600 mt-1">工作流程日志相关页面</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">当前时间</p>
+                    <p class="text-lg font-semibold text-gray-800" id="current-date"></p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- WhatsApp Flow Log -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-md card">
+                <div class="p-1 bg-green-500"></div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <i class="fa fa-whatsapp text-green-500 text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800">WhatsApp Flow Log</h2>
+                    </div>
+                    <p class="text-gray-600 mb-4">查看WhatsApp消息流程日志，包含详细的步骤信息和状态。</p>
+                    <a href="workflow-log.html" class="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300">
+                        查看日志
+                    </a>
+                </div>
+            </div>
+
+            <!-- 未来可能添加的其他Flow Log类型的卡片 -->
+        </div>
+
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>© 2023 Flow Log 系统 | 工作流程监控与分析</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前日期
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('zh-CN', options);
+        });
+    </script>
+</body>
+</html>

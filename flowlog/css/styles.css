@@ -1,0 +1,98 @@
+.step-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+.step-details.expanded {
+    max-height: none; /* 使用none代替固定值，完全自适应内容高度 */
+    transition: opacity 0.5s ease-in;
+    opacity: 1;
+    overflow: visible;
+}
+
+.step-details-content {
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    margin-top: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.rotate-icon {
+    transition: transform 0.3s ease;
+}
+
+.rotate-icon.expanded {
+    transform: rotate(90deg);
+}
+
+.status-badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-success {
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.status-cancelled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+.status-start {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.whatsapp-icon {
+    color: #25D366;
+}
+
+.cluster-icon {
+    color: #8b5cf6;
+}
+
+.branch-icon {
+    color: #6366f1;
+}
+
+.media-icon {
+    color: #ef4444;
+}
+
+.interactive-icon {
+    color: #f59e0b;
+}
+
+.template-icon {
+    color: #3b82f6;
+}
+
+.wait-response-icon {
+    color: #10b981;
+}
+
+.response-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.response-replied {
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.response-not-replied {
+    background-color: #fff7ed;
+    color: #c2410c;
+}

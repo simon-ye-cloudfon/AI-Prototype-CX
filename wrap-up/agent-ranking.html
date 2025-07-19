@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Ranking</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <style>
+    .card-shadow {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .border-primary {
+      border-color: #4F46E5;
+    }
+    .text-primary {
+      color: #4F46E5;
+    }
+    .bg-primary\/10 {
+      background-color: rgba(79, 70, 229, 0.1);
+    }
+    .border-secondary {
+      border-color: #10B981;
+    }
+    .text-secondary {
+      color: #10B981;
+    }
+    .bg-secondary\/10 {
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+    .border-accent {
+      border-color: #F59E0B;
+    }
+    .text-accent {
+      color: #F59E0B;
+    }
+    .bg-accent\/10 {
+      background-color: rgba(245, 158, 11, 0.1);
+    }
+    .border-purple {
+      border-color: #8B5CF6;
+    }
+    .text-purple {
+      color: #8B5CF6;
+    }
+    .bg-purple\/10 {
+      background-color: rgba(139, 92, 246, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Agent Ranking</h1>
+
+    <!-- Performance Overview Cards with Charts -->
+    <div class="bg-white rounded-xl p-6 card-shadow mb-8">
+      <h3 class="text-xl font-bold text-gray-800 mb-6">Performance Overview</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Avg. Completion Rate Card -->
+        <div class="p-4 border-l-4 border-primary">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Avg. Completion Rate</h3>
+          <div id="completionRateChart" style="height: 200px;"></div>
+        </div>
+
+        <!-- Avg. Handling Time Card -->
+        <div class="p-4 border-l-4 border-secondary">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Avg. Handling Time</h3>
+          <div id="handlingTimeChart" style="height: 200px;"></div>
+        </div>
+
+        <!-- Missed Field Form Rate Card -->
+        <div class="p-4 border-l-4 border-accent">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Missed Field Form Rate</h3>
+          <div id="missedFormRateChart" style="height: 200px;"></div>
+        </div>
+
+        <!-- Avg. Data Completeness Card -->
+        <div class="p-4 border-l-4 border-purple">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Avg. Data Completeness</h3>
+          <div id="dataCompletenessChart" style="height: 200px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Ranking Table -->
+    <div class="bg-white rounded-xl p-6 card-shadow mb-8">
+      <h3 class="text-xl font-bold text-gray-800 mb-6">Agent Performance Ranking</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-100">
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Rank</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Agent</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total Calls</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Avg. Completion Rate</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Avg. Handling Time</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Missed Field Form Rate</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Avg. Data Completeness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <td class="px-5 py-5 text-sm">1</td>
+              <td class="px-5 py-5 text-sm">Steve M.</td>
+              <td class="px-5 py-5 text-sm">53</td>
+              <td class="px-5 py-5 text-sm">98%</td>
+              <td class="px-5 py-5 text-sm">47s</td>
+              <td class="px-5 py-5 text-sm">20%</td>
+              <td class="px-5 py-5 text-sm">95%</td>
+            </tr>
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <td class="px-5 py-5 text-sm">2</td>
+              <td class="px-5 py-5 text-sm">Kimberly Lu</td>
+              <td class="px-5 py-5 text-sm">29</td>
+              <td class="px-5 py-5 text-sm">85%</td>
+              <td class="px-5 py-5 text-sm">1m20s</td>
+              <td class="px-5 py-5 text-sm">10%</td>
+              <td class="px-5 py-5 text-sm">96%</td>
+            </tr>
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <td class="px-5 py-5 text-sm">3</td>
+              <td class="px-5 py-5 text-sm">Allen A.</td>
+              <td class="px-5 py-5 text-sm">32</td>
+              <td class="px-5 py-5 text-sm">100%</td>
+              <td class="px-5 py-5 text-sm">30s</td>
+              <td class="px-5 py-5 text-sm">0%</td>
+              <td class="px-5 py-5 text-sm">75%</td>
+            </tr>
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <td class="px-5 py-5 text-sm">4</td>
+              <td class="px-5 py-5 text-sm">Jack Smith</td>
+              <td class="px-5 py-5 text-sm">45</td>
+              <td class="px-5 py-5 text-sm">56%</td>
+              <td class="px-5 py-5 text-sm">50s</td>
+              <td class="px-5 py-5 text-sm">2%</td>
+              <td class="px-5 py-5 text-sm">85%</td>
+            </tr>
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <td class="px-5 py-5 text-sm">5</td>
+              <td class="px-5 py-5 text-sm">Leo Paulo</td>
+              <td class="px-5 py-5 text-sm">29</td>
+              <td class="px-5 py-5 text-sm">45%</td>
+              <td class="px-5 py-5 text-sm">1m0s</td>
+              <td class="px-5 py-5 text-sm">1%</td>
+              <td class="px-5 py-5 text-sm">95%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample data for charts (replace with actual data)
+    const agentData = [
+      { name: 'Steve M.', completionRate: 98, handlingTime: 47, missedFormRate: 20, dataCompleteness: 95 },
+      { name: 'Kimberly Lu', completionRate: 85, handlingTime: 80, missedFormRate: 10, dataCompleteness: 96 },
+      { name: 'Allen A.', completionRate: 100, handlingTime: 30, missedFormRate: 0, dataCompleteness: 75 },
+      { name: 'Jack Smith', completionRate: 56, handlingTime: 50, missedFormRate: 2, dataCompleteness: 85 },
+      { name: 'Leo Paulo', completionRate: 45, handlingTime: 60, missedFormRate: 1, dataCompleteness: 95 }
+    ];
+
+    // Function to create a bar chart
+    function createBarChart(elementId, title, dataKey, unit, colors) {
+      var chart = echarts.init(document.getElementById(elementId));
+      let sortedData = [...agentData];
+
+      // Sort data based on dataKey, descending for completionRate, ascending for handlingTime and missedFormRate
+      if (dataKey === 'completionRate' || dataKey === 'dataCompleteness') {
+        sortedData.sort((a, b) => b[dataKey] - a[dataKey]);
+      } else if (dataKey === 'handlingTime' || dataKey === 'missedFormRate') {
+        sortedData.sort((a, b) => a[dataKey] - b[dataKey]);
+      }
+
+      const names = sortedData.map(item => item.name);
+      const values = sortedData.map(item => item[dataKey]);
+
+      var option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          },
+          formatter: function (params) {
+            const param = params[0];
+            return `${param.name}: ${param.value}${unit}`;
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          boundaryGap: [0, 0.01],
+          axisLabel: {
+            formatter: `{value}${unit}`
+          },
+          max: (dataKey === 'completionRate' || dataKey === 'dataCompleteness' || dataKey === 'missedFormRate') ? 100 : null // Set max to 100% for percentage metrics
+        },
+        yAxis: {
+          type: 'category',
+          data: names,
+          axisLabel: {
+            show: true,
+            interval: 0,
+            formatter: function (value) {
+              return value.length > 10 ? value.substring(0, 10) + '...' : value;
+            }
+          }
+        },
+        series: [
+          {
+            name: title,
+            type: 'bar',
+            itemStyle: {
+              color: function(params) {
+                return colors[params.dataIndex % colors.length]; // Assign different colors to each bar
+              }
+            },
+            data: values
+          }
+        ]
+      };
+      chart.setOption(option);
+      return chart;
+    }
+
+    // Define a set of colors for the bars
+    const barColors = ['#4F46E5', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#3B82F6', '#14B8A6', '#EAB308'];
+
+    // Initialize charts
+    const completionRateChart = createBarChart('completionRateChart', 'Avg. Completion Rate', 'completionRate', '%', barColors);
+    const handlingTimeChart = createBarChart('handlingTimeChart', 'Avg. Handling Time', 'handlingTime', 's', barColors);
+    const missedFormRateChart = createBarChart('missedFormRateChart', 'Missed Field Form Rate', 'missedFormRate', '%', barColors);
+    const dataCompletenessChart = createBarChart('dataCompletenessChart', 'Avg. Data Completeness', 'dataCompleteness', '%', barColors);
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      completionRateChart.resize();
+      handlingTimeChart.resize();
+      missedFormRateChart.resize();
+      dataCompletenessChart.resize();
+    });
+  </script>
+</body>
+</html>

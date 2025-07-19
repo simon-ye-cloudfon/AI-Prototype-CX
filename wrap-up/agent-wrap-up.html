@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Wrap-up Analysis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#5793f3',
+            secondary: '#91cc75',
+            accent: '#fac858',
+            purple: '#743de0',
+            red: '#ee6666',
+            darkPurple: '#9159e4',
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-shadow {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      .legend-item {
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .legend-item:hover {
+        transform: translateY(-2px);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-inter">
+  <div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl p-6 mb-8 card-shadow">
+      <!-- Header Section -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+            <i class="fa fa-user text-primary text-2xl"></i>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-1">Agent Performance</h1>
+            <p class="text-gray-500">Wrap-up efficiency and quality analysis</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 mt-4 md:mt-0">
+          <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+            <i class="fa fa-refresh mr-1"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="relative">
+          <select class="appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-primary">
+            <option>Last 7 days</option>
+            <option>Last 30 days</option>
+            <option>This month</option>
+            <option>Last month</option>
+            <option>Custom</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <i class="fa fa-chevron-down text-xs"></i>
+          </div>
+        </div>
+        <div class="relative">
+          <select class="appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-primary">
+            <option>All Agents</option>
+            <option>John Smith</option>
+            <option>Emma Wilson</option>
+            <option>Michael Brown</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <i class="fa fa-chevron-down text-xs"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Overview Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Avg. Completion Rate Card -->
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-primary">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Avg. Completion Rate</p>
+              <h3 class="text-3xl font-bold text-gray-800">90%</h3>
+              <p class="text-green-500 text-sm mt-2">
+                <i class="fa fa-arrow-up mr-1"></i> vs Last Period +5%
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-check-circle text-primary text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Avg. Handling Time Card -->
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-secondary">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Avg. Handling Time</p>
+              <h3 class="text-3xl font-bold text-gray-800">47s</h3>
+              <p class="text-green-500 text-sm mt-2">
+                <i class="fa fa-arrow-down mr-1"></i> vs Last Period -3s
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-clock-o text-secondary text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Missed Field Form Rate Card -->
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-accent">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Missed Field Form Rate</p>
+              <h3 class="text-3xl font-bold text-gray-800">5%</h3>
+              <p class="text-red-500 text-sm mt-2">
+                <i class="fa fa-arrow-up mr-1"></i> vs Last Period +1%
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-exclamation-triangle text-accent text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Avg. Data Completeness Card -->
+        <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-purple">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-500 text-sm mb-1">Avg. Data Completeness</p>
+              <h3 class="text-3xl font-bold text-gray-800">95%</h3>
+              <p class="text-green-500 text-sm mt-2">
+                <i class="fa fa-arrow-up mr-1"></i> vs Last Period +2%
+              </p>
+            </div>
+            <div class="w-12 h-12 bg-purple/10 rounded-full flex items-center justify-center">
+              <i class="fa fa-database text-purple text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Distribution Chart -->
+      <div class="bg-white rounded-xl p-6 mb-8 card-shadow">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold text-gray-800">Wrap-up Time Distribution</h2>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+              Day
+            </button>
+            <button class="px-3 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm">
+              Week
+            </button>
+            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+              Month
+            </button>
+          </div>
+        </div>
+        <div id="timeDistributionChart" style="width: 100%; height: 300px;"></div>
+      </div>
+
+      <!-- Volume Details Table -->
+      <div class="bg-white rounded-xl p-6 card-shadow mb-8">
+        <h3 class="text-xl font-bold text-gray-800 mb-6">Volume details - By Agent</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-100">
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Agent</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Total Calls</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Avg. Completion Rate</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Avg. Handling Time</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Missed Field Form Rate</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Avg. Data Completeness</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Steve M.</td>
+                <td class="px-6 py-4">53</td>
+                <td class="px-6 py-4">98%</td>
+                <td class="px-6 py-4">47s</td>
+                <td class="px-6 py-4">20%</td>
+                <td class="px-6 py-4">95%</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Kimberly Lu</td>
+                <td class="px-6 py-4">29</td>
+                <td class="px-6 py-4">85%</td>
+                <td class="px-6 py-4">1m20s</td>
+                <td class="px-6 py-4">10%</td>
+                <td class="px-6 py-4">96%</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Allen A.</td>
+                <td class="px-6 py-4">32</td>
+                <td class="px-6 py-4">100%</td>
+                <td class="px-6 py-4">30s</td>
+                <td class="px-6 py-4">0%</td>
+                <td class="px-6 py-4">75%</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Jack Smith</td>
+                <td class="px-6 py-4">45</td>
+                <td class="px-6 py-4">56%</td>
+                <td class="px-6 py-4">50s</td>
+                <td class="px-6 py-4">2%</td>
+                <td class="px-6 py-4">85%</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Leo Paulo</td>
+                <td class="px-6 py-4">29</td>
+                <td class="px-6 py-4">45%</td>
+                <td class="px-6 py-4">1m0s</td>
+                <td class="px-6 py-4">1%</td>
+                <td class="px-6 py-4">95%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize ECharts instance
+    var timeChart = echarts.init(document.getElementById('timeDistributionChart'));
+
+    // Chart configuration
+    var option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: ['<30s', '30-60s', '1-2m', '2-3m', '3-4m', '>4m'],
+        axisTick: {
+          alignWithLabel: true
+        }
+      },
+      yAxis: {
+        type: 'value',
+        name: 'Number of Calls'
+      },
+      series: [{
+        name: 'Calls',
+        type: 'bar',
+        barWidth: '60%',
+        data: [150, 200, 180, 120, 60, 40],
+        itemStyle: {
+          color: '#5793f3'
+        }
+      }]
+    };
+
+    // Apply configuration
+    timeChart.setOption(option);
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      timeChart.resize();
+    });
+  </script>
+</body>
+</html>

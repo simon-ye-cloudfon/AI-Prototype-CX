@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Copilot Tool Usage Report</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入本地 ECharts -->
+    <script src="./js/echarts.min.js"></script>
+    <!-- 引入自定义样式 -->
+    <link href="./css/styles.css" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#0FC6C2',
+                        success: '#00B42A',
+                        warning: '#FF7D00',
+                        danger: '#F53F3F',
+                        info: '#86909C',
+                        light: '#F2F3F5',
+                        dark: '#1D2129'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-inter text-dark">
+    <!-- 侧边导航 -->
+    <nav id="side-nav" class="fixed left-0 top-0 h-full w-64 bg-white shadow-md z-50 transform transition-transform duration-300 ease-in-out">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-line-chart text-primary text-2xl"></i>
+                <h1 class="text-lg font-semibold">AI Copilot Report</h1>
+            </div>
+        </div>
+        <div class="py-4">
+            <ul class="space-y-1">
+                <li>
+                    <a href="#overview" class="flex items-center px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors rounded-lg mx-2">
+                        <i class="fa fa-dashboard w-5 text-center mr-3"></i>
+                        <span>概览</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#trend" class="flex items-center px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors rounded-lg mx-2">
+                        <i class="fa fa-line-chart w-5 text-center mr-3"></i>
+                        <span>使用趋势</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#details" class="flex items-center px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors rounded-lg mx-2">
+                        <i class="fa fa-table w-5 text-center mr-3"></i>
+                        <span>使用详情</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#records" class="flex items-center px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors rounded-lg mx-2">
+                        <i class="fa fa-list w-5 text-center mr-3"></i>
+                        <span>调用记录</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 主内容容器 -->
+    <div id="main-container" class="ml-64 transition-all duration-300 ease-in-out">
+        <!-- 顶部导航 -->
+        <header class="bg-white shadow-sm sticky top-0 z-40">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <button id="toggle-nav" class="text-gray-500 hover:text-primary focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                    <h1 class="text-xl font-semibold">AI Copilot Tool Usage Report</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-500">
+                        <i class="fa fa-calendar-o mr-1"></i>
+                        <span id="current-date">July 2025</span>
+                    </div>
+                    <button class="bg-primary text-white px-4 py-1.5 rounded text-sm flex items-center">
+                        <i class="fa fa-download mr-1"></i> Export Report
+                    </button>
+                </div>
+            </div>
+        </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-4">
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <label class="text-sm font-medium text-gray-700">Time Dimension:</label>
+                    <select id="time-type" class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <option value="day">Daily</option>
+                        <option value="week" selected>Weekly</option>
+                        <option value="month">Monthly</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <label class="text-sm font-medium text-gray-700">Time Range:</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="date" id="start-date" value="2025-07-01" class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <span class="text-gray-400">to</span>
+                        <input type="date" id="end-date" value="2025-07-31" class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    </div>
+                </div>
+                
+                <button id="query-btn" class="btn-primary flex items-center">
+                    <i class="fa fa-search mr-2"></i> Query
+                </button>
+            </div>
+        </section>
+        
+        <!-- Data Overview Cards -->
+        <section id="overview" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 pt-4">
+            <!-- Total Calls -->
+            <div class="stat-card card-shadow" style="--icon-bg-start: rgba(22, 93, 255, 0.1); --icon-bg-end: rgba(22, 93, 255, 0.2); --accent-color: #165DFF;">
+                <div class="relative">
+                    <div class="pr-20">
+                        <p class="stat-label">Total Calls</p>
+                        <p class="stat-value" id="total-calls">5,234</p>
+                    </div>
+                    <div class="stat-icon absolute top-1/2 right-0 -translate-y-1/2">
+                        <i class="fa fa-phone text-primary text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Average Calls per User -->
+            <div class="stat-card card-shadow" style="--icon-bg-start: rgba(0, 180, 42, 0.1); --icon-bg-end: rgba(0, 180, 42, 0.2); --accent-color: #00B42A;">
+                <div class="relative">
+                    <div class="pr-20">
+                        <p class="stat-label">Avg Calls per User</p>
+                        <p class="stat-value" id="avg-calls">26.2</p>
+                    </div>
+                    <div class="stat-icon absolute top-1/2 right-0 -translate-y-1/2">
+                        <i class="fa fa-user text-success text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Most Used Tool -->
+            <div class="stat-card card-shadow" style="--icon-bg-start: rgba(255, 125, 0, 0.1); --icon-bg-end: rgba(255, 125, 0, 0.2); --accent-color: #FF7D00;">
+                <div class="relative">
+                    <div class="pr-20">
+                        <p class="stat-label">Most Used Tool</p>
+                        <p class="stat-value" id="most-used-tool">Rewrite</p>
+                    </div>
+                    <div class="stat-icon absolute top-1/2 right-0 -translate-y-1/2">
+                        <i class="fa fa-star text-warning text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Chart Area -->
+        <section id="trend" class="grid grid-cols-1 gap-6 mb-8 pt-4">
+            <!-- Tool Usage Trend Chart -->
+            <div class="chart-card">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Tool Usage Trend</h2>
+                </div>
+                <div class="chart-container" id="trend-chart" style="width: 100%; height: 400px; min-height: 400px; display: block; position: relative;"></div>
+            </div>
+        </section>
+        
+        <!-- Tool Usage Details -->
+        <section id="details" class="table-card mb-8 pt-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Tool Usage Details</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search tool name..." class="pl-10 pr-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-gray-50 transition-all">
+                        <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <select class="border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-gray-50 transition-all">
+                        <option value="all">All Channels</option>
+                        <option value="web">Web</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="api">API</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto rounded-lg">
+                <table class="w-full table-hover">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Tool Name</th>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Call Count</th>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Avg per User</th>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-hover bg-white divide-y divide-gray-100" id="tools-table-body">
+                        <tr>
+                            <td class="px-3 py-2">
+                                <div class="flex items-center">
+                                    <div class="w-7 h-7 rounded bg-primary/10 flex items-center justify-center text-primary mr-2">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                    <span>Expand</span>
+                                </div>
+                            </td>
+                            <td class="px-3 py-2">2,500</td>
+                            <td class="px-3 py-2">60.0</td>
+                            <td class="px-3 py-2">
+                                <div class="w-16 h-5">
+                                    <canvas class="mini-chart" data-values="[120,150,180,210,250]"></canvas>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <div class="w-7 h-7 rounded bg-secondary/10 flex items-center justify-center text-secondary mr-2">
+                                        <i class="fa fa-refresh"></i>
+                                    </div>
+                                    <span>Rewrite</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">1,800</td>
+                            <td class="px-4 py-3">40.0</td>
+                            <td class="px-4 py-3">
+                                <div class="w-16 h-5">
+                                    <canvas class="mini-chart" data-values="[90,110,130,150,180]"></canvas>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <div class="w-7 h-7 rounded bg-success/10 flex items-center justify-center text-success mr-2">
+                                        <i class="fa fa-briefcase"></i>
+                                    </div>
+                                    <span>Professional Tone Rewrite</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">1,000</td>
+                            <td class="px-4 py-3">20.0</td>
+                            <td class="px-4 py-3">
+                                <div class="w-16 h-5">
+                                    <canvas class="mini-chart" data-values="[50,60,75,90,100]"></canvas>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <div class="w-7 h-7 rounded bg-warning/10 flex items-center justify-center text-warning mr-2">
+                                        <i class="fa fa-language"></i>
+                                    </div>
+                                    <span>Translate</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">600</td>
+                            <td class="px-4 py-3">20.0</td>
+                            <td class="px-4 py-3">
+                                <div class="w-16 h-5">
+                                    <canvas class="mini-chart" data-values="[30,40,50,55,60]"></canvas>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <div class="w-7 h-7 rounded bg-danger/10 flex items-center justify-center text-danger mr-2">
+                                        <i class="fa fa-list-alt"></i>
+                                    </div>
+                                    <span>Summarize</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">1,500</td>
+                            <td class="px-4 py-3">40.0</td>
+                            <td class="px-4 py-3">
+                                <div class="w-16 h-5">
+                                    <canvas class="mini-chart" data-values="[70,90,110,130,150]"></canvas>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-3 text-sm">
+                <div class="text-gray-500">Showing 1-5 of 5 items</div>
+                <div class="flex space-x-1">
+                    <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <button class="w-7 h-7 flex items-center justify-center rounded border border-primary bg-primary text-white">1</button>
+                    <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Detailed Call Records -->
+        <section id="records" class="bg-white rounded-lg p-4 card-shadow mb-5 pt-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-semibold">Detailed Call Records</h2>
+                <div class="flex items-center space-x-3">
+                    <select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <option>All Tools</option>
+                        <option>Expand</option>
+                        <option>Rewrite</option>
+                        <option>Professional Tone Rewrite</option>
+                        <option>Translate</option>
+                        <option>Summarize</option>
+                    </select>
+                    <select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <option>All Channels</option>
+                        <option>Webchat</option>
+                        <option>WhatsApp</option>
+                        <option>SMS</option>
+                        <option>Telegram</option>
+                        <option>Email</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-50 text-gray-600">
+                        <tr>
+                            <th class="px-3 py-2 font-medium">Call Time</th>
+                            <th class="px-3 py-2 font-medium">Tool Name</th>
+                            <th class="px-3 py-2 font-medium">Agent</th>
+                            <th class="px-3 py-2 font-medium">Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-hover" id="details-table-body">
+                        <tr>
+                            <td class="px-3 py-2">2025-07-01 09:15:32</td>
+                            <td class="px-3 py-2">Expand</td>
+                            <td class="px-3 py-2">John Smith</td>
+                            <td class="px-3 py-2">Webchat</td>
+                        </tr>
+                        <tr>
+                            <td class="px-3 py-2">2025-07-01 10:22:18</td>
+                            <td class="px-3 py-2">Professional Tone Rewrite</td>
+                            <td class="px-3 py-2">Jane Doe</td>
+                            <td class="px-3 py-2">WhatsApp</td>
+                        </tr>
+                        <tr>
+                            <td class="px-3 py-2">2025-07-01 11:05:47</td>
+                            <td class="px-3 py-2">Translate</td>
+                            <td class="px-3 py-2">Mike Johnson</td>
+                            <td class="px-3 py-2">SMS</td>
+                        </tr>
+                        <tr>
+                            <td class="px-3 py-2">2025-07-01 13:30:22</td>
+                            <td class="px-3 py-2">Summarize</td>
+                            <td class="px-3 py-2">Sarah Wilson</td>
+                            <td class="px-3 py-2">Telegram</td>
+                        </tr>
+                        <tr>
+                            <td class="px-3 py-2">2025-07-01 14:18:55</td>
+                            <td class="px-3 py-2">Rewrite</td>
+                            <td class="px-3 py-2">David Brown</td>
+                            <td class="px-3 py-2">Email</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-4 text-sm">
+                <div class="text-gray-500">Showing 1-5 of 125 items</div>
+                <div class="flex space-x-1">
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-primary bg-primary text-white">1</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50">2</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50">3</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50">...</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50">25</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    </div> <!-- 结束主内容容器 -->
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-4 mt-8 ml-64" id="footer">
+        <div class="container mx-auto px-4 flex justify-between items-center text-sm text-gray-500">
+            <p>© 2025 AI Copilot Tool Usage Report</p>
+            <div class="flex items-center space-x-2">
+                <span>Last Updated: <time id="last-update-time">2025-07-05 16:30:22</time></span>
+                <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Real-time Data</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="./js/ai_copilot_report.js"></script>
+    
+    <!-- 导航菜单JavaScript -->
+    <script>
+        // 侧边导航切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleNavBtn = document.getElementById('toggle-nav');
+            const sideNav = document.getElementById('side-nav');
+            const mainContainer = document.getElementById('main-container');
+            const footer = document.getElementById('footer');
+            let navOpen = true;
+            
+            // 切换导航菜单显示/隐藏
+            toggleNavBtn.addEventListener('click', function() {
+                navOpen = !navOpen;
+                if (navOpen) {
+                    // 显示导航
+                    sideNav.classList.remove('-translate-x-full');
+                    mainContainer.classList.remove('ml-0');
+                    mainContainer.classList.add('ml-64');
+                    footer.classList.remove('ml-0');
+                    footer.classList.add('ml-64');
+                } else {
+                    // 隐藏导航
+                    sideNav.classList.add('-translate-x-full');
+                    mainContainer.classList.remove('ml-64');
+                    mainContainer.classList.add('ml-0');
+                    footer.classList.remove('ml-64');
+                    footer.classList.add('ml-0');
+                }
+            });
+            
+            // 点击导航链接平滑滚动到对应部分
+            const navLinks = document.querySelectorAll('#side-nav a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // 平滑滚动到目标位置
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70, // 减去顶部导航栏高度
+                            behavior: 'smooth'
+                        });
+                        
+                        // 在小屏幕上自动关闭导航菜单
+                        if (window.innerWidth < 768) {
+                            navOpen = false;
+                            sideNav.classList.add('-translate-x-full');
+                            mainContainer.classList.remove('ml-64');
+                            mainContainer.classList.add('ml-0');
+                            footer.classList.remove('ml-64');
+                            footer.classList.add('ml-0');
+                        }
+                    }
+                });
+            });
+            
+            // 响应式处理
+            function handleResize() {
+                if (window.innerWidth < 768) {
+                    if (navOpen) {
+                        navOpen = false;
+                        sideNav.classList.add('-translate-x-full');
+                        mainContainer.classList.remove('ml-64');
+                        mainContainer.classList.add('ml-0');
+                        footer.classList.remove('ml-64');
+                        footer.classList.add('ml-0');
+                    }
+                }
+            }
+            
+            // 监听窗口大小变化
+            window.addEventListener('resize', handleResize);
+            
+            // 初始化时检查窗口大小
+            handleResize();
+            
+            // 滚动时高亮当前导航项
+            function highlightNavOnScroll() {
+                const scrollPosition = window.scrollY;
+                
+                // 获取所有带ID的部分
+                const sections = document.querySelectorAll('section[id]');
+                
+                // 移除所有导航项的active类
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // 检查每个部分是否在视口中
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100; // 考虑导航栏高度
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        // 找到对应的导航链接并添加active类
+                        const activeLink = document.querySelector(`#side-nav a[href="#${sectionId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', highlightNavOnScroll);
+            
+            // 初始化时执行一次高亮
+            highlightNavOnScroll();
+        });
+    </script>
+    </body>
+</html>
