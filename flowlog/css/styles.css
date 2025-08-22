@@ -96,3 +96,83 @@
     background-color: #fff7ed;
     color: #c2410c;
 }
+
+/* AI聊天会话页面样式 */
+.chat-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 模态窗口样式 */
+#ai-details-modal {
+    transition: opacity 0.3s ease;
+}
+
+#ai-details-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#ai-details-modal:not(.hidden) {
+    opacity: 1;
+}
+
+/* 第五节点查看对话按钮动画 */
+@keyframes pulse-blue {
+    0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+}
+
+.bg-blue-600 {
+    animation: pulse-blue 2s infinite;
+}
+
+/* 第五节点特殊样式 */
+.border-l-4.border-blue-500 {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.border-l-4.border-blue-500:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 移除了AI聊天标签 */
+
+/* 闪烁动画效果 */
+@keyframes highlight-flash {
+    0% {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+    50% {
+        background-color: rgba(59, 130, 246, 0.3);
+    }
+    100% {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+}
+
+.highlight-animation {
+    animation: highlight-flash 1s ease;
+}

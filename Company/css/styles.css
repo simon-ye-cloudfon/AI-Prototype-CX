@@ -1,0 +1,171 @@
+/**
+ * Company 模块 - 样式表
+ */
+
+/* 基础样式 */
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #1D2129;
+    background-color: #F2F3F5;
+    line-height: 1.5;
+}
+
+/* 内容可见性 */
+.content-auto {
+    content-visibility: auto;
+}
+
+/* 公司卡片样式 */
+.company-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.company-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.16);
+    transform: translateY(-2px);
+}
+
+/* 公司列表样式 */
+.company-list-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.company-list-table th {
+    background-color: #f9fafb;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #4b5563;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.company-list-table td {
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+.company-list-table tr:hover {
+    background-color: #f9fafb;
+}
+
+/* 公司详情页样式 */
+.company-info-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.company-info-section {
+    margin-bottom: 24px;
+}
+
+.company-info-section h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+/* 标签样式 */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.tag-blue {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.tag-green {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.tag-amber {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.tag-red {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* 操作按钮样式 */
+.action-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.action-btn-primary {
+    background-color: #2563eb;
+    color: white;
+}
+
+.action-btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.action-btn-secondary {
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+.action-btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+/* 标签页导航 */
+.tab-nav {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 20px;
+}
+
+.tab-nav-item {
+    padding: 12px 16px;
+    font-weight: 500;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.tab-nav-item.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .company-info-card {
+        padding: 16px;
+    }
+    
+    .action-btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+}

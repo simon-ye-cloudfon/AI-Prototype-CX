@@ -130,13 +130,6 @@
                                                 <p class="text-sm text-gray-500 mr-2">Wait for Reply Settings</p>
                                                 <span class="response-badge response-not-replied">Disabled</span>
                                             </div>
-                                            <div class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800">
-                                                <p class="mb-2">Wait Status: <span class="text-red-600 font-medium">Disabled</span></p>
-                                                <p class="mb-2">Wait Duration: N/A</p>
-                                                <p class="mb-2">Reply Variable Name: N/A</p>
-                                                <p class="mb-2">Reply Time: N/A</p>
-                                                <p>Reply Content: N/A</p>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -219,7 +212,6 @@
                                                 <p class="mb-2">Reply Variable Name: {{variable.menu_selection}}</p>
                                                 <p class="mb-2">Reply Time: 2025/07/12 11:57:25 (replied after 7 seconds)</p>
                                                 <p class="mb-2">Reply Content: 行李查询 (Baggage)</p>
-                                                <p class="mb-2 font-medium text-blue-600">User Selection: 行李查询 (Baggage)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -364,31 +356,22 @@
                                                 <p class="mb-2">Condition 2: Variable.Name exists</p>
                                                 <p class="mb-2">Match Rule: All conditions must be met</p>
                                                 <p class="mb-2">Execute Branch: Name exists</p>
-                                                <p class="font-medium text-blue-600">Final Condition Result: Name exists</p>
                                             </div>
                                         </div>
-                                        <div class="mt-4">
-                                            <div class="flex items-center mb-2">
-                                                <p class="text-sm text-gray-500 mr-2">Wait for Reply Settings</p>
-                                                <span class="response-badge response-not-replied">Disabled</span>
-                                            </div>
-                                            <div class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800">
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         
-                        <!-- Step 5 -->
-                        <tr class="hover:bg-gray-50 cursor-pointer step-row" data-step="5">
+                        <!-- Step 5 - AI聊天会话节点 -->
+                        <tr class="hover:bg-gray-50 cursor-pointer bg-blue-50 border-l-4 border-blue-500 ai-chat-row" onclick="window.location.href='ai-chat-session.html'">
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <i class="fa fa-cube cluster-icon text-xl mr-3"></i>
+                                    <i class="fa fa-comments cluster-icon text-xl mr-3 text-blue-600"></i>
                                     <div>
                                         <div class="flex items-center">
-                                            <i class="fa fa-caret-right rotate-icon mr-2" id="icon-5"></i>
-                                            <div class="text-sm font-medium text-gray-900">ABC Airlines <span class="text-gray-500">(Cluster Node)</span></div>
+                                            <div class="text-sm font-medium text-blue-700">ABC Airlines <span class="text-blue-500">(Cluster Node)</span></div>
                                         </div>
                                         <div class="text-sm text-gray-500 truncate" style="max-width: 300px;">5f1ed6dc-cd2e-49d0-89ca-7033...</div>
                                     </div>
@@ -403,59 +386,10 @@
                                 <span class="status-badge status-success">Success</span>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                2025/07/12 11:57:18
+                                <span>2025/07/12 11:57:18</span>
                             </td>
                         </tr>
-                        <!-- Step 5 Details -->
-                        <tr>
-                            <td colspan="4" class="px-0 py-0">
-                                <div class="step-details" id="details-5">
-                                    <div class="step-details-content p-4 pl-12">
-                                        <h4 class="font-medium text-gray-700 mb-2">Details</h4>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div>
-                                                <p class="text-sm text-gray-500 mb-1">Node ID</p>
-                                                <p class="text-sm text-gray-800">5f1ed6dc-cd2e-49d0-89ca-7033a8c7f33d</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-gray-500 mb-1">Process Time</p>
-                                                <p class="text-sm text-gray-800">2025/07/12 11:57:18</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-gray-500 mb-1">Node Type</p>
-                                                <p class="text-sm text-gray-800">Cluster Node</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-gray-500 mb-1">User Input</p>
-                                                <p class="text-sm text-gray-800">That's help</p>
-                                            </div>
-                                        </div>
-                                        <div class="mt-4">
-                                            <p class="text-sm text-gray-500 mb-1">Node Process Details</p>
-                                            <div class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800">
-                                                <p class="mb-2">Process Result: Success</p>
-                                                <p class="mb-2">Process Duration: 120ms</p>
-                                                <p class="mb-2">Next Operation: Send WhatsApp Message</p>
-                                                <p class="font-medium text-blue-600">Final Action: Send WhatsApp Message</p>
-                                            </div>
-                                        </div>
-                                        <div class="mt-4">
-                                            <div class="flex items-center mb-2">
-                                                <p class="text-sm text-gray-500 mr-2">Wait for Reply Settings</p>
-                                                <span class="response-badge response-not-replied">Disabled</span>
-                                            </div>
-                                            <div class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800">
-                                                <p class="mb-2">Wait Status: <span class="text-red-600 font-medium">Disabled</span></p>
-                                                <p class="mb-2">Wait Duration: N/A</p>
-                                                <p class="mb-2">Reply Variable Name: N/A</p>
-                                                <p class="mb-2">Reply Time: N/A</p>
-                                                <p>Reply Content: N/A</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- Step 5 不再显示详情，而是链接到单独的AI聊天会话页面 -->
                         
                         <!-- Step 6 -->
                         <tr class="hover:bg-gray-50 cursor-pointer step-row" data-step="6">
@@ -523,13 +457,6 @@
                                             <div class="flex items-center mb-2">
                                                 <p class="text-sm text-gray-500 mr-2">Wait for Reply Settings</p>
                                                 <span class="response-badge response-not-replied">Disabled</span>
-                                            </div>
-                                            <div class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800">
-                                                <p class="mb-2">Wait Status: <span class="text-red-600 font-medium">Disabled</span></p>
-                                                <p class="mb-2">Wait Duration: N/A</p>
-                                                <p class="mb-2">Reply Variable Name: N/A</p>
-                                                <p class="mb-2">Reply Time: N/A</p>
-                                                <p>Reply Content: N/A</p>
                                             </div>
                                         </div>
                                     </div>
@@ -699,7 +626,6 @@
                                                 <p class="mb-2">Reply Variable Name: {{variable.flight_selection}}</p>
                                                 <p class="mb-2">Reply Time: 2025/07/12 11:58:10 (replied after 48 seconds)</p>
                                                 <p class="mb-2">Reply Content: 查询航班 ABC123</p>
-                                                <p class="font-medium text-blue-600">User Final Selection: 查询航班 ABC123</p>
                                             </div>
                                         </div>
                                     </div>
@@ -770,13 +696,6 @@
                                             <div class="flex items-center mb-2">
                                                 <p class="text-sm text-gray-500 mr-2">Wait for Reply Settings</p>
                                                 <span class="response-badge response-not-replied">Disabled</span>
-                                            </div>
-                                            <div class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800">
-                                                <p class="mb-2">Wait Status: <span class="text-red-600 font-medium">Disabled</span></p>
-                                                <p class="mb-2">Wait Duration: N/A</p>
-                                                <p class="mb-2">Reply Variable Name: N/A</p>
-                                                <p class="mb-2">Reply Time: N/A</p>
-                                                <p>Reply Content: N/A</p>
                                             </div>
                                         </div>
                                     </div>

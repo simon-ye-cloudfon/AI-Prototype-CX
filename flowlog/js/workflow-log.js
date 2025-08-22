@@ -16,4 +16,24 @@ document.addEventListener('DOMContentLoaded', function() {
             iconElement.classList.toggle('expanded');
         });
     });
+    
+    // 为AI聊天行添加闪烁效果
+    const aiChatRow = document.querySelector('.ai-chat-row');
+    if (aiChatRow) {
+        // 初始闪烁效果
+        setTimeout(() => {
+            aiChatRow.classList.add('highlight-animation');
+            setTimeout(() => {
+                aiChatRow.classList.remove('highlight-animation');
+            }, 1000);
+        }, 500);
+        
+        // 每隔一段时间重复闪烁效果
+        setInterval(() => {
+            aiChatRow.classList.add('highlight-animation');
+            setTimeout(() => {
+                aiChatRow.classList.remove('highlight-animation');
+            }, 1000);
+        }, 10000); // 每10秒闪烁一次
+    }
 });

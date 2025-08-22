@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公司详情 - Acme Corporation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#0FC6C2',
+                        success: '#00B42A',
+                        warning: '#FF7D00',
+                        danger: '#F53F3F',
+                        info: '#86909C',
+                        light: '#F2F3F5',
+                        dark: '#1D2129'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <!-- 面包屑导航 -->
+        <nav class="flex mb-6" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="./company-list.html" class="inline-flex items-center text-gray-600 hover:text-primary">
+                        <i class="fa fa-building mr-2"></i>
+                        Companies
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fa fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-800">Acme Corporation</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- 公司基本信息卡片 -->
+        <div class="company-info-card mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-gray-800 mr-3">Acme Corporation</h1>
+                        <span class="tag tag-green">活跃</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">行业：</span>
+                            <span class="font-medium">科技</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">规模：</span>
+                            <span class="font-medium">大型</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">网站：</span>
+                            <a href="https://www.acme.com" target="_blank" class="text-primary hover:underline">www.acme.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">成立时间：</span>
+                            <span class="font-medium">2005-03-15</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">地址：</span>
+                            <span class="font-medium">123 Tech St, San Francisco, CA</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">电话：</span>
+                            <span class="font-medium">+1-555-123-4567</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">Owner：</span>
+                            <span class="font-medium">张三 (zhangsan@example.com)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">最后更新：</span>
+                            <span class="font-medium">2023-10-15 09:32</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-end">
+                    <p class="text-sm text-gray-500">当前时间</p>
+                    <p class="text-lg font-semibold text-gray-800" id="current-date"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作按钮区 -->
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button id="edit-company-btn" class="action-btn action-btn-primary flex items-center">
+                <i class="fa fa-pencil mr-2"></i> 编辑公司
+            </button>
+            <button id="change-owner-btn" class="action-btn action-btn-secondary flex items-center">
+                <i class="fa fa-user-circle mr-2"></i> 变更Owner
+            </button>
+            <button class="action-btn action-btn-secondary flex items-center">
+                <i class="fa fa-comment mr-2"></i> 发送消息
+            </button>
+            <button id="link-contact-btn" class="action-btn action-btn-secondary flex items-center">
+                <i class="fa fa-link mr-2"></i> 关联联系人
+            </button>
+            <button id="export-data-btn" class="action-btn action-btn-secondary flex items-center">
+                <i class="fa fa-download mr-2"></i> 导出数据
+            </button>
+            <div class="relative group">
+                <button class="action-btn action-btn-secondary flex items-center">
+                    <i class="fa fa-ellipsis-h mr-2"></i> 更多
+                </button>
+                <!-- 下拉菜单 -->
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden group-hover:block z-10">
+                    <div class="py-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fa fa-trash mr-2 text-danger"></i> 删除公司
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fa fa-clone mr-2 text-primary"></i> 复制公司
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fa fa-history mr-2 text-info"></i> 查看历史记录
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签页导航 -->
+        <div class="tab-nav">
+            <div class="tab-nav-item active" data-target="details-tab">
+                <i class="fa fa-info-circle mr-2"></i> 详情
+            </div>
+            <div class="tab-nav-item" data-target="contacts-tab">
+                <i class="fa fa-users mr-2"></i> 联系人
+            </div>
+            <div class="tab-nav-item" data-target="activities-tab">
+                <i class="fa fa-history mr-2"></i> 活动记录
+            </div>
+            <div class="tab-nav-item" data-target="documents-tab">
+                <i class="fa fa-file-text mr-2"></i> 文档
+            </div>
+            <div class="tab-nav-item" data-target="custom-fields-tab">
+                <i class="fa fa-sliders mr-2"></i> 自定义字段
+            </div>
+        </div>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content-container">
+            <!-- 详情标签页 -->
+            <div id="details-tab" class="tab-content">
+                <!-- 基本信息组 -->
+                <div class="company-info-section">
+                    <h3>基本信息</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="text-gray-600 mb-2">公司描述</h4>
+                            <p class="text-gray-800">全球领先的科技解决方案提供商，专注于企业软件和云服务。</p>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 mb-2">主要产品</h4>
+                            <p class="text-gray-800">企业资源规划软件、客户关系管理系统、云存储服务</p>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 mb-2">年营业额</h4>
+                            <p class="text-gray-800">$1,200,000</p>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 mb-2">员工数量</h4>
+                            <p class="text-gray-800">500+</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 联系信息组 -->
+                <div class="company-info-section">
+                    <h3>联系信息</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="text-gray-600 mb-2">账单地址</h4>
+                            <p class="text-gray-800">123 Tech St, San Francisco, CA 94107</p>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 mb-2">发货地址</h4>
+                            <p class="text-gray-800">456 Innovation Way, San Jose, CA 95110</p>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 mb-2">主要联系人</h4>
+                            <p class="text-gray-800">John Smith (john@acme.com)</p>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 mb-2">紧急联系人</h4>
+                            <p class="text-gray-800">Jane Doe (jane@acme.com)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 社交媒体信息 -->
+                <div class="company-info-section">
+                    <h3>社交媒体</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-linkedin-square text-[#0077B5] text-2xl mr-3"></i>
+                            <a href="https://linkedin.com/company/acme" target="_blank" class="text-primary hover:underline">linkedin.com/company/acme</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa fa-twitter-square text-[#1DA1F2] text-2xl mr-3"></i>
+                            <a href="https://twitter.com/acme" target="_blank" class="text-primary hover:underline">@acme</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa fa-facebook-square text-[#4267B2] text-2xl mr-3"></i>
+                            <a href="https://facebook.com/acme" target="_blank" class="text-primary hover:underline">facebook.com/acme</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系人标签页 -->
+            <div id="contacts-tab" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">关联联系人 (12)</h3>
+                    <button class="action-btn action-btn-primary flex items-center">
+                        <i class="fa fa-plus mr-2"></i> 添加联系人
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="p-4 text-left">姓名</th>
+                                <th class="p-4 text-left">职位</th>
+                                <th class="p-4 text-left">邮箱</th>
+                                <th class="p-4 text-left">电话</th>
+                                <th class="p-4 text-left">最后联系</th>
+                                <th class="p-4 text-left">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray-200">
+                                <td class="p-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3 text-primary font-medium">JS</div>
+                                        <span>John Smith</span>
+                                    </div>
+                                </td>
+                                <td class="p-4">CEO</td>
+                                <td class="p-4">john@acme.com</td>
+                                <td class="p-4">+1-555-123-4567</td>
+                                <td class="p-4">2023-10-10</td>
+                                <td class="p-4">
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-600 hover:text-gray-800" title="查看">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button class="text-gray-600 hover:text-gray-800" title="编辑">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button class="text-gray-600 hover:text-gray-800" title="移除">
+                                            <i class="fa fa-unlink"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border-t border-gray-200">
+                                <td class="p-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center mr-3 text-secondary font-medium">JD</div>
+                                        <span>Jane Doe</span>
+                                    </div>
+                                </td>
+                                <td class="p-4">CTO</td>
+                                <td class="p-4">jane@acme.com</td>
+                                <td class="p-4">+1-555-987-6543</td>
+                                <td class="p-4">2023-10-12</td>
+                                <td class="p-4">
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-600 hover:text-gray-800" title="查看">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button class="text-gray-600 hover:text-gray-800" title="编辑">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button class="text-gray-600 hover:text-gray-800" title="移除">
+                                            <i class="fa fa-unlink"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 活动记录标签页 -->
+            <div id="activities-tab" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">活动记录</h3>
+                    <div class="flex space-x-2">
+                        <button class="action-btn action-btn-secondary flex items-center">
+                            <i class="fa fa-filter mr-2"></i> 筛选
+                        </button>
+                        <button class="action-btn action-btn-primary flex items-center">
+                            <i class="fa fa-plus mr-2"></i> 添加活动
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- 活动记录项 -->
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4 text-primary">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between">
+                                    <h4 class="font-medium">电话沟通</h4>
+                                    <span class="text-gray-500 text-sm">2023-10-15 09:32</span>
+                                </div>
+                                <p class="text-gray-600 mt-1">与John Smith讨论了新产品需求和合作意向</p>
+                                <div class="flex items-center mt-2 text-sm">
+                                    <span class="text-gray-500 mr-3">由 张三 创建</span>
+                                    <span class="text-gray-500">持续时间: 30分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center mr-4 text-success">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between">
+                                    <h4 class="font-medium">邮件沟通</h4>
+                                    <span class="text-gray-500 text-sm">2023-10-12 14:15</span>
+                                </div>
+                                <p class="text-gray-600 mt-1">发送了产品报价单和技术规格说明</p>
+                                <div class="flex items-center mt-2 text-sm">
+                                    <span class="text-gray-500 mr-3">由 李四 创建</span>
+                                    <a href="#" class="text-primary hover:underline">查看附件</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 文档标签页 -->
+            <div id="documents-tab" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">相关文档</h3>
+                    <button class="action-btn action-btn-primary flex items-center">
+                        <i class="fa fa-upload mr-2"></i> 上传文档
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- 文档卡片 -->
+                    <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded bg-red-100 flex items-center justify-center mr-3 text-red-600">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">产品报价单.pdf</h4>
+                                <span class="text-gray-500 text-sm">2.4 MB</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-500">上传于 2023-10-12</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-600 hover:text-gray-800" title="下载">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                                <button class="text-gray-600 hover:text-gray-800" title="删除">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center mr-3 text-blue-600">
+                                <i class="fa fa-file-word-o"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">合作协议.docx</h4>
+                                <span class="text-gray-500 text-sm">1.8 MB</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-500">上传于 2023-10-10</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-600 hover:text-gray-800" title="下载">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                                <button class="text-gray-600 hover:text-gray-800" title="删除">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 自定义字段标签页 -->
+            <div id="custom-fields-tab" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">自定义字段</h3>
+                    <button class="action-btn action-btn-primary flex items-center">
+                        <i class="fa fa-plus mr-2"></i> 添加字段
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-600 mb-2">年营业额</label>
+                            <input type="text" value="$1,200,000" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-2">客户满意度</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option>非常满意</option>
+                                <option selected>满意</option>
+                                <option>一般</option>
+                                <option>不满意</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-2">合作开始日期</label>
+                            <input type="date" value="2020-05-10" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-2">合同到期日</label>
+                            <input type="date" value="2024-05-09" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-2">优先级</label>
+                            <div class="flex space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="priority" class="form-radio text-primary">
+                                    <span class="ml-2">低</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="priority" class="form-radio text-primary">
+                                    <span class="ml-2">中</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="priority" checked class="form-radio text-primary">
+                                    <span class="ml-2">高</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-2">备注</label>
+                            <textarea class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" rows="3">重要客户，需要定期跟进</textarea>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button class="action-btn action-btn-secondary">取消</button>
+                        <button class="action-btn action-btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="./js/company-detail.js"></script>
+</body>
+</html>
